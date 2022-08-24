@@ -47,16 +47,18 @@ def inference(sentence):
 
     return model.predict(text_pad)[0][0]
 
-@app.route('/')
+
+@app.route("/")
 def root():
     # return f'Tool for SMS spam detection'
-    return f'Tool for SMS spam detection'
+    return f"Tool for SMS spam detection"
 
-@app.route('/predict', methods=['GET','POST'])
+
+@app.route("/predict", methods=["GET", "POST"])
 def predict():
     """To classify the spam of a sentence."""
 
-    if request.method == 'POST':
+    if request.method == "POST":
         sentence = request.args.get("sentence")
         positive_prediction = inference(sentence)
         negative_prediction = 1 - positive_prediction
@@ -68,4 +70,4 @@ def predict():
         }
         return flask.jsonify(response)
     else:
-        return 'Make a POST request'
+        return "Make a POST request"
