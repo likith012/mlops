@@ -1,11 +1,10 @@
 Flask==2.2.2
+tensorflow==2.9.1
+pandas==1.4.3
 ipykernel==6.15.1
 ipython==8.4.0
 Jinja2==3.1.2
 jupyter-client==7.3.4
 jupyter-core==4.11.1
 numpy==1.23.2
-pandas==1.4.3
-tensorboard==2.9.1
-tensorflow==2.9.1
-sklearn==1.1.2
+scikit-learn==1.1.2
