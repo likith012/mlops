@@ -1,7 +1,7 @@
 # mlops
 
 - The code to train the model and to save the trained weights is located at `src/main.ipynb`. Run it to save the weights at `flask_app/checkpoints/`. 
-- The `checkpoints` folder contains tokenizer, model architecture and the model weights.
+- The `flask_app/checkpoints` folder contains tokenizer, model architecture and the model weights.
 - The training data is stored in `data`.
 - The linting CI used is black and is located at `.github/workflows/black.yml`
 - The code for flask is located at `flask_app` and nginx server at `nginx`.
