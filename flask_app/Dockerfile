@@ -40,7 +40,6 @@ RUN apt-get update && \
     unzip \
     wget \
     nginx \
-    gunicorn \
     supervisor
 
 # Conda install
@@ -62,19 +61,25 @@ RUN /bin/bash -c "source ~/.bashrc \
     && source activate ${CONDA_ENV} \
     && ${PIP} install -r requirements.txt"
 
+
+# # Setup nginx
+# RUN rm /etc/nginx/sites-enabled/default
+# COPY flask.conf /etc/nginx/sites-available/
+# RUN ln -s /etc/nginx/sites-available/flask.conf /etc/nginx/sites-enabled/flask.conf
+# RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+
+# # Setup supervisord
+# RUN mkdir -p /var/log/supervisor
+# COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# COPY gunicorn.conf /etc/supervisor/conf.d/gunicorn.conf
+
+# CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+
+
+EXPOSE 5000
+
 COPY . ${CONDA_ENV}
 
-# Setup nginx
-RUN rm /etc/nginx/sites-enabled/default
-COPY flask.conf /etc/nginx/sites-available/
-RUN ln -s /etc/nginx/sites-available/flask.conf /etc/nginx/sites-enabled/flask.conf
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-
-# Setup supervisord
-RUN mkdir -p /var/log/supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY gunicorn.conf /etc/supervisor/conf.d/gunicorn.conf
-
-# RUN chmod +x /usr/local/bin/deep_learning_container.py
-
-CMD ["/usr/bin/supervisord"]
+CMD /bin/bash -c "cd mlops \
+    && source activate mlops \
+    && gunicorn -w 1 -b 0.0.0.0:5000 wsgi:app"

@@ -6,8 +6,7 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import tokenizer_from_json
 
-from flask import Flask, request
-import flask
+from flask import Flask, request, render_template
 import os
 
 
@@ -50,6 +49,7 @@ def inference(sentence):
 
 @app.route('/')
 def root():
+    # return f'Tool for SMS spam detection'
     return f'Tool for SMS spam detection'
 
 @app.route('/predict', methods=['GET','POST'])
@@ -69,7 +69,3 @@ def predict():
         return flask.jsonify(response)
     else:
         return 'Make a POST request'
-    
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0')
